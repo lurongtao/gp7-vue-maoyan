@@ -3,7 +3,7 @@
 		<div class="tab-block">
 			<div class="tab-content">
 				<div class="page n-hot active" id="movie-scroll">
-					<div class="list-wrap" style="margin-top: 0px;">
+					<div class="list-wrap" style="margin-top: 0px;"> {{ x }}
             <movie-item :item="item" v-for="item of movies" :key="item.id"></movie-item>
           </div>
         </div>
@@ -18,10 +18,17 @@ import { Indicator } from 'mint-ui'
 import BScroll from 'better-scroll'
 import axios from 'utils/http'
 import _ from 'lodash'
+import { setTimeout } from 'timers';
 
 export default {
   props: {
     inTheater: Object
+  },
+
+  data () {
+    return {
+      x: 1
+    }
   },
 
   components: {
@@ -35,10 +42,16 @@ export default {
   },
 
   mounted () {
+    console.log('child-mounted')
     this.count = 0
+
+    setTimeout(() => {
+      this.x = 3
+    }, 10000)
   },
 
   updated () {
+    console.log('child-updated')
     let that = this
 
     this.movieIds = _.chunk(this.inTheater.movieIds.slice(12), 10)

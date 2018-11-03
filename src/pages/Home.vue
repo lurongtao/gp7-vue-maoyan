@@ -12,6 +12,7 @@
 import Header from 'components/layout/Header'
 import TabBar from 'components/layout/TabBar'
 import Movies from 'pages/movies/Movies'
+
 export default {
   components: {
     Header,

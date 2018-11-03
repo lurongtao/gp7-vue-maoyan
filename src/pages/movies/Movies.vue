@@ -24,6 +24,7 @@
 import MovieList from 'components/common/movie-list/MovieList'
 import axios from 'utils/http'
 import { Indicator } from 'mint-ui'
+
 export default {
   data () {
     return {
@@ -31,9 +32,19 @@ export default {
       // isShowLoading: true
     }
   },
+
   components: {
     MovieList
   },
+
+  mounted () {
+    console.log('parent-mounted')
+  },
+
+  updated () {
+    console.log('parent-updated')
+  },
+
   async beforeCreate () {
     Indicator.open({
       text: '加载中...',
