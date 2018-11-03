@@ -35,6 +35,8 @@ export default {
 nav
   height: .48rem
   background #fff
+  position static
+  z-index 999
   ul
     height 100%
     display flex

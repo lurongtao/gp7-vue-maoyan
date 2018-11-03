@@ -1,15 +1,13 @@
 <template>
   <div>
-    猫眼电影 <mt-button>click</mt-button>
+    猫眼电影
   </div>
 </template>
 
 <script>
-import { Button } from 'mint-ui'
-
 export default {
   components: {
-    [Button.name]: Button
+    
   }
 }
 </script>
@@ -25,5 +23,6 @@ div
   font-size .18rem
   line-height .5rem
   text-align center
+  z-index 999
 </style>
 

@@ -1114,6 +1114,13 @@ aws4@^1.8.0:
   version "1.8.0"
   resolved "https://registry.npmjs.org/aws4/-/aws4-1.8.0.tgz#f0e003d9ca9e7f59c7a508945d7b2ef9a04a542f"
 
+axios@^0.18.0:
+  version "0.18.0"
+  resolved "http://registry.npmjs.org/axios/-/axios-0.18.0.tgz#32d53e4851efdc0a11993b6cd000789d70c05102"
+  dependencies:
+    follow-redirects "^1.3.0"
+    is-buffer "^1.1.5"
+
 babel-code-frame@^6.26.0:
   version "6.26.0"
   resolved "https://registry.npmjs.org/babel-code-frame/-/babel-code-frame-6.26.0.tgz#63fd43f7dc1e3bb7ce35947db8fe369a3f58c74b"
@@ -1153,6 +1160,13 @@ babel-plugin-transform-vue-jsx@^4.0.1:
   dependencies:
     esutils "^2.0.2"
 
+babel-runtime@^6.0.0:
+  version "6.26.0"
+  resolved "https://registry.npmjs.org/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
+  dependencies:
+    core-js "^2.4.0"
+    regenerator-runtime "^0.11.0"
+
 balanced-match@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
@@ -1182,6 +1196,12 @@ bcrypt-pbkdf@^1.0.0:
   resolved "https://registry.npmjs.org/bcrypt-pbkdf/-/bcrypt-pbkdf-1.0.2.tgz#a4301d389b6a43f9b67ff3ca11a3f6637e360e9e"
   dependencies:
     tweetnacl "^0.14.3"
+
+better-scroll@^1.13.2:
+  version "1.13.2"
+  resolved "https://registry.npmjs.org/better-scroll/-/better-scroll-1.13.2.tgz#31e6e088cf2d23ce48e52fad6cc59134ffeb2f56"
+  dependencies:
+    babel-runtime "^6.0.0"
 
 bfj@^6.1.1:
   version "6.1.1"
@@ -1750,7 +1770,7 @@ copy-webpack-plugin@^4.5.4:
     p-limit "^1.0.0"
     serialize-javascript "^1.4.0"
 
-core-js@^2.5.7:
+core-js@^2.4.0, core-js@^2.5.7:
   version "2.5.7"
   resolved "https://registry.npmjs.org/core-js/-/core-js-2.5.7.tgz#f972608ff0cead68b841a16a932d0b183791814e"
 
@@ -2625,7 +2645,7 @@ flush-write-stream@^1.0.0:
     inherits "^2.0.1"
     readable-stream "^2.0.4"
 
-follow-redirects@^1.0.0:
+follow-redirects@^1.0.0, follow-redirects@^1.3.0:
   version "1.5.9"
   resolved "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.5.9.tgz#c9ed9d748b814a39535716e531b9196a845d89c6"
   dependencies:
@@ -4893,6 +4913,10 @@ regenerate-unicode-properties@^7.0.0:
 regenerate@^1.2.1, regenerate@^1.4.0:
   version "1.4.0"
   resolved "https://registry.npmjs.org/regenerate/-/regenerate-1.4.0.tgz#4a856ec4b56e4077c557589cae85e7a4c8869a11"
+
+regenerator-runtime@^0.11.0:
+  version "0.11.1"
+  resolved "https://registry.npmjs.org/regenerator-runtime/-/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
 
 regenerator-runtime@^0.12.0:
   version "0.12.1"
