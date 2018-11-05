@@ -2,7 +2,7 @@
   <div class="home-wrap">
     <Header></Header>
     <main>
-      <movies></movies>
+      <router-view></router-view>
     </main>
     <TabBar></TabBar>
   </div>
@@ -11,13 +11,11 @@
 <script>
 import Header from 'components/layout/Header'
 import TabBar from 'components/layout/TabBar'
-import Movies from 'pages/movies/Movies'
 
 export default {
   components: {
     Header,
-    TabBar,
-    Movies
+    TabBar
   }
 }
 </script>
