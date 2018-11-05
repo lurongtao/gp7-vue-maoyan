@@ -1,5 +1,5 @@
 <template>
-  <div class="btn" :class="{ pre: preShow }">
+  <div class="btn" :class="{ pre: !globalReleased }">
     <span class="fix" data-bid="dp_wx_home_movie_btn">
       <slot></slot>
     </span>
@@ -9,7 +9,7 @@
 <script>
 export default {
   props: {
-    preShow: Boolean
+    globalReleased: Boolean
   }
 }
 </script>

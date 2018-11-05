@@ -3,7 +3,7 @@
 		<div class="tab-block">
 			<div class="tab-content">
 				<div class="page n-hot active" id="movie-scroll">
-					<div class="list-wrap" style="margin-top: 0px;"> {{ x }}
+					<div class="list-wrap" style="margin-top: 0px;">
             <movie-item :item="item" v-for="item of movies" :key="item.id"></movie-item>
           </div>
         </div>
@@ -13,12 +13,8 @@
 </template>
 
 <script>
-import MovieItem from 'components/common/movie-list/MovieItem'
-import { Indicator } from 'mint-ui'
-import BScroll from 'better-scroll'
-import axios from 'utils/http'
-import _ from 'lodash'
-import { setTimeout } from 'timers';
+import MovieItem from './MovieItem'
+import { scroll } from 'utils/scroll'
 
 export default {
   props: {
@@ -27,7 +23,7 @@ export default {
 
   data () {
     return {
-      x: 1
+      movies: []
     }
   },
 
@@ -35,53 +31,24 @@ export default {
     MovieItem
   },
 
-  computed: {
-    movies () {
-      return this.inTheater && this.inTheater.movieList || []
+  watch: {
+    // 1、监听父组件二次传过来的新值
+    // 2、下一步准备更新moives, 因此必须让movies可以重新赋值
+    inTheater () {
+      this.movies = this.inTheater && this.inTheater.movieList || []
+
+      scroll({
+        el: '#movie-scroll',
+        data: this.movies,
+        inTheater: this.inTheater,
+        url: '/ajax/moreComingList',
+        vm: this
+      })
     }
   },
 
   mounted () {
-    console.log('child-mounted')
-    this.count = 0
-
-    setTimeout(() => {
-      this.x = 3
-    }, 10000)
-  },
-
-  updated () {
-    console.log('child-updated')
-    let that = this
-
-    this.movieIds = _.chunk(this.inTheater.movieIds.slice(12), 10)
-
-    // 为了演示Indicator 唯一实例的问题
-    Indicator.close()
-
-    // 声明BScroll
-    let bscroll = new BScroll('#movie-scroll', {
-      probeType: 1,
-      pullUpLoad: {
-        threshold: 50
-      }
-    })
-
-    // 监听 pullingUp
-    bscroll.on('pullingUp', async function () {
-      // 分页的ajax请求
-      let result = await axios({
-        url: '/ajax/moreComingList',
-        method: 'get',
-        params: {
-          movieIds: that.movieIds[that.count].join(',')
-        }
-      })
-
-      // 告诉better-scroll, 可以进行下次滑动了
-      bscroll.finishPullUp()
-      that.count++
-    })
+    
   }
 }
 </script>

@@ -17,13 +17,13 @@
               <span class="score-suffix">观众评 </span>
               <span class="grade">{{ item.sc }}</span>
             </div>
-            <div class="actor line-ellipsis">{{ item.star }}</div>
+            <div class="actor line-ellipsis">{{ item.star || '暂无演职人员信息' }}</div>
             <div class="show-info line-ellipsis">{{ item.showInfo }}</div>
           </div>
         </div>
         <div class="button-block" data-id="346015">
-          <movie-button :preShow="item.preShow">
-            {{ item.preShow | preShowText }}
+          <movie-button :globalReleased="item.globalReleased">
+            {{ item.globalReleased | globalReleasedText }}
           </movie-button>
         </div>
       </div>
@@ -41,8 +41,8 @@ export default {
     MovieButton
   },
   filters: {
-    preShowText (value) {
-      return value ? '预售' : '购票'
+    globalReleasedText (value) {
+      return !value ? '预售' : '购票'
     }
   }
 }
