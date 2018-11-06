@@ -66,6 +66,9 @@ export default {
 
 <style lang="stylus" scoped>
 @import '~styles/libs/movie-list.css'
+@import '~styles/ellipsis.styl'
+.line-ellipsis
+  ellipsis()
 .page-wrap
   flex 1
   .tab-block

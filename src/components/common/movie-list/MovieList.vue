@@ -1,12 +1,21 @@
 <template>
-  <div class="list-wrap" style="margin-top: 0px;">
-    <movie-item :item="item" v-for="item of movies" :key="item.id"></movie-item>
+  <div class="list-wrap">
+    <div v-if="$route.name==='coming'" class="coming-list">
+      <div v-for="(value,key) of groupedMovies" :key="key">
+        <p class="group-date">{{ key }}</p>
+        <movie-item :item="item" v-for="item of value" :key="item.id"></movie-item>
+      </div>
+    </div>
+    <template v-else>
+      <movie-item :item="item" v-for="item of movies" :key="item.id"></movie-item>
+    </template>
   </div>
 </template>
 
 <script>
 import MovieItem from './MovieItem'
 import { scroll } from 'utils/scroll'
+import _ from 'lodash'
 
 export default {
   props: {
@@ -16,6 +25,14 @@ export default {
   data () {
     return {
       movies: []
+    }
+  },
+
+  computed: {
+    groupedMovies () {
+      return _.groupBy(this.movies, (item) => {
+        return item.comingTitle
+      })
     }
   },
 
@@ -30,7 +47,7 @@ export default {
       this.movies = this.resource 
         && (this.$route.name === 'intheater' 
           ? this.resource.movieList
-          : this.resource.coming) 
+          : this.resource.coming)
         || []
 
       scroll({
