@@ -30,7 +30,7 @@ export const scroll = ({
         url,
         method: 'get',
         params: {
-          token: '',
+          token: '', // 加个token, 不然拿不到更多数据
           movieIds: movieIds[count].join(',')
         }
       })
