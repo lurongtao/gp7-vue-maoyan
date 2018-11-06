@@ -30,6 +30,7 @@ export const scroll = ({
         url,
         method: 'get',
         params: {
+          token: '',
           movieIds: movieIds[count].join(',')
         }
       })
