@@ -3,6 +3,9 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 import Movies from 'pages/movies/Movies'
+import MoviesInTheater from 'pages/movies/MoviesInTheater'
+import MoviesComing from 'pages/movies/MoviesComing'
+
 import Theaters from 'pages/theaters/Theaters'
 import Profile from 'pages/profile/Profile'
 
@@ -14,7 +17,20 @@ const routes = [
   {
     name: 'movies',
     path: '/movies',
-    component: Movies
+    component: Movies,
+    redirect: '/movies/intheater',
+    children: [
+      {
+        name: 'intheater',
+        path: 'intheater',
+        component: MoviesInTheater
+      },
+      {
+        name: 'coming',
+        path: 'coming',
+        component: MoviesComing
+      }
+    ]
   },
   {
     name: 'theaters',
