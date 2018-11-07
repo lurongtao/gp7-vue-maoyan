@@ -1,0 +1,130 @@
+<template>
+  <section class="city-list-container" id="city-list-scroll">
+    <div class="city-list-wrap">
+      <section class="history-city-list">
+        <div ref="visited" class="city-title">
+          最近访问城市
+        </div>
+        <div class="city-list city-list-inline clearfix">
+          <div class="city-item">
+            上海
+          </div>
+        </div>
+      </section>
+      <section>
+        <div ref="hot" class="city-title">
+          热门城市
+        </div>
+        <div class="city-list city-list-inline clearfix">
+          <div class="city-item" v-for="item of hotCities" :key="item.id">
+            {{ item.name }}
+          </div>
+        </div>
+      </section>
+      <section>
+        <div v-for="(v, k) of allCities" :key="k">
+          <div :ref="k" class="city-title city-title-letter">
+            {{ k }}
+          </div>
+          <div class="city-list city-list-block clearfix">
+            <div class="city-item" v-for="item of v" :key="item.id">
+              {{ item.name }}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <section class="nav">
+      <div class="nav-item" @click="gotoVisited">
+        最近
+      </div>
+      <div class="nav-item" @click="gotoHotlist">
+        热门
+      </div>
+      <div 
+        class="nav-letter nav-item" 
+        @click="gotoLetter(key)" 
+        v-for="(item, key) of allCities" 
+        :key="key"
+        @touchstart = "handleTouchStart($event)"
+        @touchmove = "handleTouchMove($event)"
+        @touchend = "handleTouchEnd($event)"
+      >
+        {{ key }}
+      </div>
+    </section>
+  </section>
+</template>
+
+<style lang="stylus" scoped>
+.city-list-container
+  display block
+</style>
+
+<script>
+import http from 'utils/http'
+import BScroll from 'better-scroll'
+import { clearTimeout, setTimeout } from 'timers'
+import _ from 'lodash'
+export default {
+  data () {
+    return {
+      hotCities: [],
+      allCities: null
+    }
+  },
+
+  methods: {
+    pickIt () {
+      this.$router.push('/home/movies/intheater')
+    },
+
+    scrollToElement (el) {
+      this.bscroll.scrollToElement(el)
+    },
+
+    gotoVisited () {
+      this.scrollToElement(this.$refs.visited)
+    },
+
+    gotoHotlist () {
+      this.scrollToElement(this.$refs.hot)
+    },
+
+    gotoLetter (key) {
+      this.scrollToElement(this.$refs[key][0])
+    },
+
+    handleTouchStart (e) {
+      // console.log(e.touches[0].clientY)
+    },
+    handleTouchMove (e) {
+      let index = Math.floor((e.touches[0].clientY - 120) / 18.67)
+      let Alphabet = Object.keys(this.allCities)[index]
+      this.scrollToElement(this.$refs[Alphabet][0])
+    },
+    handleTouchEnd() {
+    }
+  },
+
+  async mounted () {
+    let result = await http({
+      url: '/cities.json',
+      method: 'get'
+    })
+
+    this.hotCities = result.hotCities
+    this.allCities = result.cities
+
+    this.$nextTick(() => {
+      this.bscroll = new BScroll('#city-list-scroll', {
+        probeType: 1,
+        click: true
+      })
+
+      this.timer = null
+    })
+  }
+}
+</script>
+
