@@ -53,6 +53,7 @@ export default {
       scroll({
         el: '#movie-scroll',
         data: this.movies,
+        horizontal: false,
         inTheater: this.resource,
         url: '/ajax/moreComingList',
         vm: this

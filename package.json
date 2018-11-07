@@ -11,7 +11,9 @@
     "better-scroll": "^1.13.2",
     "lodash": "^4.17.11",
     "mint-ui": "^2.2.13",
+    "nprogress": "^0.2.0",
     "vue": "^2.5.17",
+    "vue-progressbar": "^0.7.5",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
   },

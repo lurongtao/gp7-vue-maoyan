@@ -6,18 +6,20 @@
 					<div class="list-wrap" style="margin-top: 0px;">
 						<div class="most-expected">
 							<p class="title">近期最受期待</p>
-							<div class="most-expected-list">
-                <div class="expected-item" data-id="42964">
-                  <div class="poster default-img-bg">
-                    <img src="https://p0.meituan.net/170.230/movie/363e3a7e614d29b2847ff4e62afcd3f42168651.jpg" onerror="this.style.visibility='hidden'">
-                    <span class="wish-bg"></span>
-                    <span class="wish"><span class="wish-num">364683</span>人想看</span>
-                    <div class="toggle-wish" data-wishst="0" data-movieid="42964">
-                      <span></span>
+							<div class="most-expected-list" id="most-expected-scroll">
+                <div class="most-expected-list-wrap">
+                  <div v-for="item of mostExpected" :key="item.id" class="expected-item">
+                    <div class="poster default-img-bg">
+                      <img :src="item.img | replaceWH('170.230')" onerror="this.style.visibility='hidden'">
+                      <span class="wish-bg"></span>
+                      <span class="wish"><span class="wish-num">{{ item.wish }}</span>人想看</span>
+                      <div class="toggle-wish" data-wishst="0" data-movieid="42964">
+                        <span></span>
+                      </div>
                     </div>
+                    <h5 class="name line-ellipsis">{{ item.nm }}</h5>
+                    <p class="date">{{ item.comingTitle }}</p>
                   </div>
-                  <h5 class="name line-ellipsis">毒液：致命守护者</h5>
-                  <p class="date">11月9日</p>
                 </div>
               </div>
 						</div>
@@ -33,11 +35,13 @@
 import MovieList from 'components/common/movie-list/MovieList'
 import http from 'utils/http'
 import { Indicator } from 'mint-ui'
+import { scroll } from 'utils/scroll'
 
 export default {
   data () {
     return {
-      comingResource: null
+      comingResource: null,
+      mostExpected: []
     }
   },
 
@@ -51,12 +55,25 @@ export default {
       spinnerType: 'fading-circle'
     })
 
-    let result = await http({
+    this.comingResource = await http({
       method: 'get',
       url: '/ajax/comingList'
     })
 
-    this.comingResource = result
+    let mostExpectedResource = (await http({
+      method: 'get',
+      url: '/ajax/mostExpected'
+    }))
+    this.mostExpected = mostExpectedResource.coming
+
+    scroll({
+      el: '#most-expected-scroll',
+      data: this.mostExpected,
+      horizontal: true,
+      paging: mostExpectedResource.paging,
+      url: '/ajax/mostExpected',
+      vm: this
+    })
 
     // 为了演示Indicator 唯一实例的问题
     Indicator.close()
@@ -67,6 +84,10 @@ export default {
 <style lang="stylus" scoped>
 @import '~styles/libs/movie-list.css'
 @import '~styles/ellipsis.styl'
+.most-expected-list-wrap
+  width max-content
+.most-expected
+  height 2.24rem
 .line-ellipsis
   ellipsis()
 .page-wrap

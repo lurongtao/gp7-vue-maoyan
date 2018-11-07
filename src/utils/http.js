@@ -1,5 +1,5 @@
 import axios from 'axios'
-export default ({method, url, params}) => {
+export default ({method, url, params={}}) => {
   return axios({
     method,
     url,

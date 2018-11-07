@@ -6,16 +6,19 @@ import _ from 'lodash'
 export const scroll = ({
   el,
   data,
-  inTheater,
+  inTheater = null,
   url,
-  vm
+  vm,
+  paging = {},
+  horizontal = false
 }) => {
   let count = 0
 
-  let movieIds = _.chunk(inTheater.movieIds.slice(12), 10)
+  let movieIds = _.chunk(inTheater && inTheater.movieIds.slice(12) || {}, 10)
 
   // 声明BScroll
   let bscroll = new BScroll(el, {
+    scrollX: horizontal,
     probeType: 1,
     pullUpLoad: {
       threshold: 50
@@ -58,6 +61,52 @@ export const scroll = ({
 
       // 告诉better-scroll, 可以进行下次滑动了
       bscroll.finishPullUp()
+    }
+  })
+
+  // 监听横向滚动
+  let reachThreshold = false
+  let hasMore = true
+  bscroll.on('scroll', () => {
+    if (horizontal) {
+      const threshold = 50
+      const curPosition = bscroll.maxScrollX - bscroll.x
+      if (curPosition > threshold) {
+        reachThreshold = true
+      }
+    }
+  })
+  bscroll.on('scrollEnd', async () => {
+    if (horizontal && reachThreshold && hasMore) {
+      count++
+      // 分页的ajax请求
+      let result = await http({
+        url,
+        method: 'get',
+        params: {
+          token: '',
+          ci: paging.ci,
+          limit: paging.limit,
+          offset: count * paging.limit
+        }
+      })
+      // hasMore 要每次取新的Ajax请求的hasMore
+      hasMore = result.paging.hasMore
+
+      vm.mostExpected.push(...result.coming)
+
+      // $nextTick 等待mostExpected被渲染到DOM上
+      vm.$nextTick(() => {
+        bscroll.refresh()
+      })
+    }
+
+    if (!hasMore) {
+      Toast({
+        message: '到头了~',
+        position: 'top',
+        duration: 1000
+      })
     }
   })
 }
