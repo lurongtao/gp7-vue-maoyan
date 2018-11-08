@@ -16,6 +16,7 @@
 import MovieItem from './MovieItem'
 import { scroll } from 'utils/scroll'
 import _ from 'lodash'
+import { setTimeout } from 'timers';
 
 export default {
   props: {
@@ -50,14 +51,19 @@ export default {
           : this.resource.coming)
         || []
 
-      scroll({
-        el: '#movie-scroll',
-        data: this.movies,
-        horizontal: false,
-        inTheater: this.resource,
-        url: '/ajax/moreComingList',
-        vm: this
-      })
+      // 纵向scroll
+      // 因为路由有动画，需要播放300毫秒，
+      // 因此此处需要加定时器，在300毫秒后创建scroll对象
+      setTimeout(() => {
+        scroll({
+          el: '#movie-scroll',
+          data: this.movies,
+          horizontal: false,
+          inTheater: this.resource,
+          url: '/ajax/moreComingList',
+          vm: this
+        })
+      }, 300)
     }
   }
 }

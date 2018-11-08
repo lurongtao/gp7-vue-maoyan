@@ -6,7 +6,7 @@
           最近访问城市
         </div>
         <div class="city-list city-list-inline clearfix">
-          <div class="city-item">
+          <div class="city-item" @click="pickIt">
             上海
           </div>
         </div>
@@ -16,7 +16,7 @@
           热门城市
         </div>
         <div class="city-list city-list-inline clearfix">
-          <div class="city-item" v-for="item of hotCities" :key="item.id">
+          <div class="city-item" @click="pickIt" v-for="item of hotCities" :key="item.id">
             {{ item.name }}
           </div>
         </div>
@@ -27,7 +27,7 @@
             {{ k }}
           </div>
           <div class="city-list city-list-block clearfix">
-            <div class="city-item" v-for="item of v" :key="item.id">
+            <div class="city-item" @click="pickIt" v-for="item of v" :key="item.id">
               {{ item.name }}
             </div>
           </div>
@@ -75,6 +75,10 @@ export default {
   },
 
   methods: {
+    throttle : function (el) {
+      return _.throttle(this.handleTouchMove.bind(this, el), 100)
+    },
+
     pickIt () {
       this.$router.push('/home/movies/intheater')
     },
@@ -96,14 +100,22 @@ export default {
     },
 
     handleTouchStart (e) {
-      // console.log(e.touches[0].clientY)
+      this.touchStatus = true
     },
-    handleTouchMove (e) {
-      let index = Math.floor((e.touches[0].clientY - 120) / 18.67)
-      let Alphabet = Object.keys(this.allCities)[index]
-      this.scrollToElement(this.$refs[Alphabet][0])
-    },
+
+    handleTouchMove: _.throttle( function(e) {
+      if (this.touchStatus) {
+        let index = Math.floor((e.touches[0].clientY - 120) / 18.67)
+        let letters = Object.keys(this.allCities)
+        let Alphabet = letters[index]
+        if (index >= 0 && index < letters.length ) {
+          this.scrollToElement(this.$refs[Alphabet][0])
+        }
+      }
+    }, 100),
+
     handleTouchEnd() {
+      this.touchStatus = false
     }
   },
 

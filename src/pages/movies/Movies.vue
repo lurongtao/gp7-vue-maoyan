@@ -49,7 +49,7 @@ export default {
 .slide-right-leave-active,
 .slide-left-enter-active,
 .slide-left-leave-active {
-  transition: all 1s;
+  transition: all 300ms;
 }
 
 .slide-right-enter {
