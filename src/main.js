@@ -5,6 +5,8 @@ import router from './router'
 
 import VueProgressBar from 'vue-progressbar'
 
+import store from './store/'
+
 const options = {
   color: '#bffaf3',
   failedColor: '#874b4b',
@@ -25,5 +27,6 @@ Vue.config.productionTip = false
 
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')

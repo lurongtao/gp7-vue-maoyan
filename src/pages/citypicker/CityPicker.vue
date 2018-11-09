@@ -7,7 +7,7 @@
         </div>
         <div class="city-list city-list-inline clearfix">
           <div class="city-item" @click="pickIt">
-            上海
+            {{ city }}
           </div>
         </div>
       </section>
@@ -16,7 +16,7 @@
           热门城市
         </div>
         <div class="city-list city-list-inline clearfix">
-          <div class="city-item" @click="pickIt" v-for="item of hotCities" :key="item.id">
+          <div class="city-item" @click="pickIt(item.name)" v-for="item of hotCities" :key="item.id">
             {{ item.name }}
           </div>
         </div>
@@ -27,7 +27,7 @@
             {{ k }}
           </div>
           <div class="city-list city-list-block clearfix">
-            <div class="city-item" @click="pickIt" v-for="item of v" :key="item.id">
+            <div class="city-item" @click="pickIt(item.name)" v-for="item of v" :key="item.id">
               {{ item.name }}
             </div>
           </div>
@@ -66,6 +66,7 @@ import http from 'utils/http'
 import BScroll from 'better-scroll'
 import { clearTimeout, setTimeout } from 'timers'
 import _ from 'lodash'
+import { mapState, mapMutations } from 'vuex'
 export default {
   data () {
     return {
@@ -74,13 +75,21 @@ export default {
     }
   },
 
+  computed: {
+    ...mapState(['city'])
+  },
+
   methods: {
+
     throttle : function (el) {
       return _.throttle(this.handleTouchMove.bind(this, el), 100)
     },
 
-    pickIt () {
+    pickIt (city) {
       this.$router.push('/home/movies/intheater')
+      if (city) {
+        this.$store.commit('changeCity', city)
+      }
     },
 
     scrollToElement (el) {

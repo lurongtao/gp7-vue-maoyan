@@ -2,7 +2,7 @@
   <div class="m-movie">
     <div class="white-bg topbar-bg">
       <div class="city-entry">
-        <router-link tag="span" to="/cities" class="city-name">北京</router-link>
+        <router-link tag="span" to="/cities" class="city-name">{{ city }}</router-link>
         <svg t="1541208993260" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2028" xmlns:xlink="http://www.w3.org/1999/xlink" width="15" height="15"><path d="M750.331 457.203l-238.576 238.087-238.087-238.576z" p-id="2029"></path></svg>
       </div>
       
@@ -22,11 +22,15 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   data () {
     return {
       transitionName: ''
     }
+  },
+  computed: {
+    ...mapState(['city'])
   },
   watch: {
     $route (to, from) {

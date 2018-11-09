@@ -17,7 +17,6 @@ export const scroll = ({
   let movieIds = _.chunk(inTheater && inTheater.movieIds.slice(12) || {}, 10)
 
   // 声明BScroll
-  console.log(el, horizontal)
   let bscroll = new BScroll(el, {
     scrollX: horizontal,
     probeType: 1,
