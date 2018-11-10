@@ -6,7 +6,7 @@
           最近访问城市
         </div>
         <div class="city-list city-list-inline clearfix">
-          <div class="city-item" @click="pickIt">
+          <div class="city-item" @click="pickIt(false)">
             {{ city }}
           </div>
         </div>

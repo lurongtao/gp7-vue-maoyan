@@ -13,6 +13,8 @@ module.exports = {
       .set('utils', resolve('./src/utils'))
   },
 
+  baseUrl: '/dist/',
+
   devServer: {
     proxy: {
       '/ajax': {

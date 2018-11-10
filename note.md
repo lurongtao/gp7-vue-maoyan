@@ -43,3 +43,59 @@
 ### svg
 - 样式：fill
 - iconfont导出svg
+
+
+# history 路由前后端配置
+## 带二级目录的Apache配置
+- step1: 修改 vue.config.js
+添加配置 baseUrl: '/dist/',
+
+- step2: 修改 router/index.js
+const router = new VueRouter({
+  mode: 'history',
+  base: '/dist/',
+  routes
+})
+
+- step3: 修改apache 配置
+添加：
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /dist/index.html [L]
+</IfModule>
+- step4: apache 反向代理配置
+
+## 带二级目录的Nginx配置
+- step1: 修改 vue.config.js
+添加配置 baseUrl: '/dist/',
+
+- step2: 修改 router/index.js
+const router = new VueRouter({
+  mode: 'history',
+  base: '/dist/',
+  routes
+})
+
+- step3: 配置nginx
+在本地目录下，创建conf.d文件夹，里面随意创建任意文件
+添加如下配置：
+server {
+  listen 80;
+  server_name localhost;
+  root /Users/Felix/Desktop/workspace/gp7/Vue.js/prd-maoyan;
+  autoindex on;
+  expires 1s;
+  charset utf-8;
+
+  location /ajax {
+    proxy_pass http://m.maoyan.com;
+  }
+
+  location / {
+    try_files $uri $uri/dist /dist/index.html;
+  }
+}
